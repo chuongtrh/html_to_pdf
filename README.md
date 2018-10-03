@@ -82,3 +82,6 @@ Using handlebars to check param `isWatermark`
 
 Change `isWatermark: true` and run `node pdf.js` again
 ![Invoice with stamp paid watermark](https://raw.githubusercontent.com/chuongtrh/html_to_pdf/master/screenshot/invoice_paid.png)
+
+## License
+html_to_pdf is available under the MIT license. See the LICENSE file for more info.
