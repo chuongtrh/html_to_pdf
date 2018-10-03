@@ -1,21 +1,21 @@
 ## html_to_pdf
-Generate simple invoice pdf from html using [puppeteer](https://github.com/GoogleChrome/puppeteer) & [handlebars](http://handlebarsjs.com/)
+Generate simple PDF invoice from HTML using [puppeteer](https://github.com/GoogleChrome/puppeteer) & [handlebars](http://handlebarsjs.com/)
 
-![enter image description here](https://raw.githubusercontent.com/chuongtrh/html_to_pdf/master/screenshot/invoice.png)
-## Let's start
-
-- Puppeteer 
+![Invoice](https://raw.githubusercontent.com/chuongtrh/html_to_pdf/master/screenshot/invoice.png)
+## Introduce
+- [Puppeteer](https://github.com/GoogleChrome/puppeteer) 
 > Puppeteer is Node.js library giving you access to a headless Chrome browser. This makes it a breeze to generate PDF files with Node.js
 
-- Handlebars
+- [Handlebars](http://handlebarsjs.com/)
 > Handlebars provides the power necessary to let you build semantic templates effectively with no frustration
 
-## Step by step
+## How to use
+- Run `npm install` to install package in package.json
+- Run `node pdf.js` to generate invoice.pdf
+## The PDF Invoice from HTML
 1. Prepare content html (invoice.html)
 2. Using handlebars to binding data to content html
 3. Using Puppeteer to generate pdf from final html
-
-
 ```js
 const fs = require("fs");
 const path = require("path");
@@ -39,7 +39,7 @@ const handlebars = require("handlebars");
             }
         ],
         total: 600,
-        isWatermark: true
+        isWatermark: false
     }
     
     var templateHtml = fs.readFileSync(path.join(process.cwd(), 'invoice.html'), 'utf8');
@@ -72,7 +72,6 @@ const handlebars = require("handlebars");
 ```
 
 ## How to display paid stamp watermark on invoice?
-
 Using handlebars to check param `isWatermark`
 ```js
   {{#if isWatermark}}
@@ -80,3 +79,6 @@ Using handlebars to check param `isWatermark`
         PAID </div>
     {{/if}}
 ```
+
+Change `isWatermark: true` and run `node pdf.js` again
+![Invoice with stamp paid watermark](https://raw.githubusercontent.com/chuongtrh/html_to_pdf/master/screenshot/invoice_paid.png)
