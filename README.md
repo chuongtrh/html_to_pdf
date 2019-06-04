@@ -1,5 +1,5 @@
 ## html_to_pdf
-Generate simple PDF invoice from HTML using [puppeteer](https://github.com/GoogleChrome/puppeteer) & [handlebars](http://handlebarsjs.com/)
+Generate a simple PDF invoice from HTML using [puppeteer](https://github.com/GoogleChrome/puppeteer) & [handlebars](http://handlebarsjs.com/)
 
 ![Invoice](https://raw.githubusercontent.com/chuongtrh/html_to_pdf/master/screenshot/invoice.png)
 ## Introduce
