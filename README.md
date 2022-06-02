@@ -16,7 +16,7 @@ Generate a simple PDF invoice from HTML using [puppeteer](https://github.com/Goo
 ## How to use
 
 - Run `npm install` to install package in package.json
-- Run `node pdf.js` to generate invoice.pdf
+- Run `node example.js` to generate invoice.pdf
 
 ## The PDF Invoice from HTML
 
@@ -24,51 +24,15 @@ Generate a simple PDF invoice from HTML using [puppeteer](https://github.com/Goo
 2. Using handlebars to binding data to content html
 3. Using Puppeteer to generate pdf from final html
 
+index.js
+
 ```js
-const fs = require("fs");
-const path = require("path");
 const puppeteer = require("puppeteer");
 const handlebars = require("handlebars");
 
-(async () => {
-  var dataBinding = {
-    items: [
-      {
-        name: "item 1",
-        price: 100,
-      },
-      {
-        name: "item 2",
-        price: 200,
-      },
-      {
-        name: "item 3",
-        price: 300,
-      },
-    ],
-    total: 600,
-    isWatermark: false,
-  };
-
-  var templateHtml = fs.readFileSync(
-    path.join(process.cwd(), "invoice.html"),
-    "utf8"
-  );
-  var template = handlebars.compile(templateHtml);
-  var finalHtml = encodeURIComponent(template(dataBinding));
-
-  var options = {
-    format: "A4",
-    headerTemplate: "<p></p>",
-    footerTemplate: "<p></p>",
-    displayHeaderFooter: false,
-    margin: {
-      top: "40px",
-      bottom: "100px",
-    },
-    printBackground: true,
-    path: "invoice.pdf",
-  };
+module.exports.html_to_pdf = async ({ templateHtml, dataBinding, options }) => {
+  const template = handlebars.compile(templateHtml);
+  const finalHtml = encodeURIComponent(template(dataBinding));
 
   const browser = await puppeteer.launch({
     args: ["--no-sandbox"],
@@ -80,7 +44,62 @@ const handlebars = require("handlebars");
   });
   await page.pdf(options);
   await browser.close();
-})();
+};
+```
+
+example.js
+
+```js
+const fs = require("fs");
+const path = require("path");
+const { html_to_pdf } = require(".");
+
+try {
+  (async () => {
+    const dataBinding = {
+      items: [
+        {
+          name: "item 1",
+          price: 100,
+        },
+        {
+          name: "item 2",
+          price: 200,
+        },
+        {
+          name: "item 3",
+          price: 300,
+        },
+      ],
+      total: 600,
+      isWatermark: true,
+    };
+
+    const templateHtml = fs.readFileSync(
+      path.join(process.cwd(), "invoice.html"),
+      "utf8"
+    );
+
+    const options = {
+      format: "A4",
+      headerTemplate: "<p></p>",
+      footerTemplate: "<p></p>",
+      displayHeaderFooter: false,
+      margin: {
+        top: "40px",
+        bottom: "100px",
+      },
+      printBackground: true,
+      path: "invoice.pdf",
+    };
+
+    await html_to_pdf({ templateHtml, dataBinding, options });
+
+    console.log("Done: invoice.pdf is created!");
+  })();
+} catch (err) {
+  console.log("ERROR:", err);
+}
 ```
 
 ## How to display paid stamp watermark on invoice?
