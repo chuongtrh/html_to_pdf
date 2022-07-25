@@ -1,6 +1,6 @@
 {
   "name": "@chuongtrh/html-to-pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate a simple invoice PDF from HTML using puppeteer & handlebars",
   "main": "index.js",
   "scripts": {
